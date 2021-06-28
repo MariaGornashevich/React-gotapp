@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import gotService from "../../service/gotService";
 import Spinner from "../spinner";
-
+import ErrorPage from "./errorPage";
 
 const RandomBlock = styled.div`
   background-color: #fff;
@@ -30,23 +30,34 @@ export default class RandomChar extends Component {
     died: null,
     culture: null,
     loading: true,
+    error: false,
   };
 
   updateCharacter() {
     const id = Math.floor(Math.random() * 140 + 25);
+    // const id = 4467897657685786;
     gotService
       .getCharacter(id)
       .then(({ name, gender, born, died, culture }) =>
-        this.setState({ name, gender, born, died, culture, loading: false })
+        this.setState({
+          name,
+          gender,
+          born,
+          died,
+          culture,
+          loading: false,
+        })
       )
-      .catch((error) => console.error(error));
+      .catch((error) => this.setState({ error: true }));
   }
 
   render() {
-    const { name, gender, born, died, culture, loading } = this.state;
+    const { name, gender, born, died, culture, loading, error } = this.state;
     return (
       <>
-        {loading ? (
+        {error ? (
+          <ErrorPage />
+        ) : loading ? (
           <Spinner />
         ) : (
           <RandomBlock className="rounded">
