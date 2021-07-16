@@ -17,12 +17,8 @@ const RandomBlock = styled.div`
 const Term = styled.span`
   font-weight: bold;
 `;
-export default class RandomChar extends Component {
-  constructor() {
-    super();
-    this.updateCharacter();
-  }
 
+export default class RandomChar extends Component {
   state = {
     name: null,
     gender: null,
@@ -33,7 +29,8 @@ export default class RandomChar extends Component {
     error: false,
   };
 
-  updateCharacter() {
+  updateCharacter = () => {
+    console.log("update");
     const id = Math.floor(Math.random() * 140 + 25);
     // const id = 4467897657685786;
     gotService
@@ -49,6 +46,17 @@ export default class RandomChar extends Component {
         })
       )
       .catch((error) => this.setState({ error: true }));
+  };
+
+  componentDidMount() {
+    this.updateCharacter();
+    this.timerId = setInterval(this.updateCharacter, 2000);
+    console.log("did mount");
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerId);
+    console.log("will unmount");
   }
 
   render() {
