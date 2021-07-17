@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Col, Row, Container } from "reactstrap";
 import Header from "../header";
 import RandomChar from "../randomChar";
-import ItemList from "../itemList";
-import CharDetails from "../charDetails";
+import CharacterPage from "../characterPage";
 import styled from "styled-components";
+import ErrorPage from "../randomChar/errorPage";
 
 const ShowButton = styled.button`
   width: 100px;
@@ -12,15 +12,14 @@ const ShowButton = styled.button`
 export default class App extends Component {
   state = {
     showRandomChar: false,
-    selectedCharacter: 6,
-  };
-
-  onCharacterSelected = (id) => {
-    console.log(id);
-    this.setState({ selectedCharacter: id });
+    error: false,
   };
 
   render() {
+    if (this.state.error) {
+      return <ErrorPage />;
+    }
+
     const { showRandomChar } = this.state;
     return (
       <>
@@ -40,14 +39,7 @@ export default class App extends Component {
               </ShowButton>
             </Col>
           </Row>
-          <Row>
-            <Col md="6">
-              <ItemList onCharacterSelected={this.onCharacterSelected} />
-            </Col>
-            <Col md="6">
-              <CharDetails characterId={this.state.selectedCharacter} />
-            </Col>
-          </Row>
+          <CharacterPage />
         </Container>
       </>
     );

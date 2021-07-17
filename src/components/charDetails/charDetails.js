@@ -27,6 +27,12 @@ export default class CharDetails extends Component {
     this.updateCharacter();
   }
 
+  componentDidUpdate(prevProps) {
+if(this.props.characterId !== prevProps.characterId) {
+  this.updateCharacter();
+}
+  }
+
   updateCharacter() {
     const { characterId } = this.props;
 
