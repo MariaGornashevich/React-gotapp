@@ -12,29 +12,29 @@ class GotClass {
     return await res.json();
   };
 
-  async getAllBooks() {
+  getAllBooks = async () => {
     return await this.getResource(`/books/`);
-  }
+  };
 
-  async getBook(id) {
+  getBook = async (id) => {
     return await this.getResource(`/books/${id}/`);
-  }
+  };
 
-  async getAllCharacters() {
+  getAllCharacters = async () => {
     return await this.getResource(`/characters?page=5&pageSize=10`);
-  }
+  };
 
-  async getCharacter(id) {
+  getCharacter = async (id) => {
     return await this.getResource(`/characters/${id}`);
-  }
+  };
 
-  async getAllHouses() {
+  getAllHouses = async () => {
     return await this.getResource(`/houses/`);
-  }
+  };
 
-  async getHouse(id) {
+  getHouse = async (id) => {
     return await this.getResource(`/houses/${id}/`);
-  }
+  };
 }
 
 const gotService = new GotClass();

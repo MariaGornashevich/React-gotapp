@@ -5,6 +5,9 @@ import RandomChar from "../randomChar";
 import CharacterPage from "../characterPage";
 import styled from "styled-components";
 import ErrorPage from "../randomChar/errorPage";
+import ItemList from "../itemList";
+import CharDetails from "../itemDetails";
+import gotService from "../../service/gotService";
 
 const ShowButton = styled.button`
   width: 100px;
@@ -14,6 +17,13 @@ export default class App extends Component {
     showRandomChar: false,
     error: false,
   };
+
+  componentDidCatch() {
+    console.log("error");
+    this.setState({
+      error: true,
+    });
+  }
 
   render() {
     if (this.state.error) {
@@ -40,6 +50,28 @@ export default class App extends Component {
             </Col>
           </Row>
           <CharacterPage />
+          <Row>
+            <Col md="6">
+              <ItemList
+                onItemSelected={this.onItemSelected}
+                getData={gotService.getAllBooks}
+              />
+            </Col>
+            <Col md="6">
+              <CharDetails characterId={this.state.selectedCharacter} />
+            </Col>
+          </Row>
+          <Row>
+            <Col md="6">
+              <ItemList
+                getData={gotService.getAllHouses}
+                onItemSelected={this.onItemSelected}
+              />
+            </Col>
+            <Col md="6">
+              <CharDetails characterId={this.state.selectedCharacter} />
+            </Col>
+          </Row>
         </Container>
       </>
     );

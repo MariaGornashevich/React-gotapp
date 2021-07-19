@@ -18,6 +18,16 @@ const SelectError = styled.span`
   font-size: 26px;
 `;
 
+const Field = ({ character, field, label }) => {
+  return (
+    <li className="list-group-item d-flex justify-content-between">
+      <span className="term">{label}</span>
+      <span>{character[field]}</span>
+    </li>
+  );
+};
+
+export { Field };
 export default class CharDetails extends Component {
   state = {
     character: null,
@@ -28,9 +38,9 @@ export default class CharDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-if(this.props.characterId !== prevProps.characterId) {
-  this.updateCharacter();
-}
+    if (this.props.characterId !== prevProps.characterId) {
+      this.updateCharacter();
+    }
   }
 
   updateCharacter() {
@@ -50,29 +60,16 @@ if(this.props.characterId !== prevProps.characterId) {
       return <SelectError>Please select a character</SelectError>;
     }
 
-    const { name, gender, born, died, culture } = this.state.character;
+    const { character } = this.state;
+    const { name } = character;
 
     return (
       <CharDetailsBlock className="rounded">
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">
-          <li className="list-group-item d-flex justify-content-between">
-            <span className="term">Gender</span>
-            <span>{gender}</span>
-          </li>
-          <li className="list-group-item d-flex justify-content-between">
-            <span className="term">Born</span>
-            <span>{born}</span>
-          </li>
-          <li className="list-group-item d-flex justify-content-between">
-            <span className="term">Died</span>
-            <span>{died}</span>
-          </li>
-          <li className="list-group-item d-flex justify-content-between">
-            <span className="term">Culture</span>
-            <span>{culture}</span>
-          </li>
-        </ul>
+          {React.Children.map(this.props.chilren, (child) => {
+         return React.cloneElement(child, {character})
+          })} </ul>
       </CharDetailsBlock>
     );
   }
